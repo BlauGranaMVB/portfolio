@@ -1,28 +1,61 @@
+import java.util.Scanner;
+
 public class Calculator {
-   public static void main(String[] args) {
-      double num1;
-      double num2;
-      double ans;
-      char op;
-      Scanner reader = new Scanner(System.in);
-      System.out.print("Enter two numbers: ");
-      num1 = reader.nextDouble();
-      num2 = reader.nextDouble();
-      System.out.print("\nEnter an operator (+, -, *, /): ");
-      op = reader.next().charAt(0);
-      switch(op) {
-         case '+': ans = num1 + num2;
-            break;
-         case '-': ans = num1 - num2;
-            break;
-         case '*': ans = num1 * num2;
-            break;
-         case '/': ans = num1 / num2;
-            break;
-         default:  System.out.printf("Error! Enter correct operator");
-            return;
-      }
-      System.out.print("\nThe result is given as follows:\n");
-      System.out.printf(num1 + " " + op + " " + num2 + " = " + ans);
-   }
+    static Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        int operand1 = nextInt();
+        int operand2 = nextInt();
+        char operation = getOperation();
+        int result = calc(operand1,operand2,operation);
+        System.out.println("Результат операции: "+result);
+    }
+
+    public static int nextInt(){
+        System.out.println("Введите число:");
+        int operand;
+        if(scanner.hasNextInt()){
+            operand = scanner.nextInt();
+        } else {
+            System.out.println("Вы допустили ошибку при вводе числа. Попробуйте еще раз.");
+            scanner.next();//рекурсия
+            operand = nextInt();
+        }
+        return operand;
+    }
+
+    public static char getOperation(){
+        System.out.println("Введите операцию:");
+        char operation;
+        if(scanner.hasNext()){
+            operation = scanner.next().charAt(0);
+        } else {
+            System.out.println("Вы допустили ошибку при вводе операции. Попробуйте еще раз.");
+            scanner.next();//рекурсия
+            operation = getOperation();
+        }
+        return operation;
+    }
+
+    public static int calc(int operand1, int operand2, char operation){
+        int result;
+        switch (operation){
+            case '+':
+                result = operand1+operand2;
+                break;
+            case '-':
+                result = operand1-operand2;
+                break;
+            case '*':
+                result = operand1*operand2;
+                break;
+            case '/':
+                result = operand1/operand2;
+                break;
+            default:
+                System.out.println("Операция не распознана. Повторите ввод.");
+                result = calc(operand1, operand2, getOperation());//рекурсия
+        }
+        return result;
+    }
 }
